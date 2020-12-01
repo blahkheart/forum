@@ -1,10 +1,5 @@
 <template>
-<div class="col-full">
-  <h1>Welcome to the forum</h1>
-  <ThreadList :threads="threads"/>
-</div>
-  <!-- <div>
-    <div v-for="(thread,i) in threads" :key="i" class="col-large push-top">
+    <div class="col-large push-top">
       <h1>{{thread.title}}</h1>
       <div class="post-list">
         <div v-for="(postId, n) in thread.posts" :key="n" class="post">
@@ -27,28 +22,23 @@
         </div>
       </div>
     </div>
-  </div> -->
 </template>
-
 <script>
 import sourceData from '@/assets/js/data'
-import ThreadList from '@/components/ThreadList'
-console.log(sourceData)
 
 export default {
-  components: {
-    ThreadList
-  },
-  data: () => {
-    return {
-      threads: Object.values(sourceData.threads),
-      posts: sourceData.posts,
-      users: sourceData.users
+    props: {
+        id: {
+            required: true,
+            type: String
+        }
+    },
+    data () {
+        return {
+            thread: sourceData.threads[this.id],
+            posts: sourceData.posts,
+            users: sourceData.users
+        }
     }
-  }
 }
 </script>
-
-<style scoped lang="scss">
-
-</style>

@@ -1,18 +1,24 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <!-- <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div> -->
+  <div class="col-full">
+    <h1>Welcome to the forum</h1>
+    <ThreadList :threads="threads"/>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import sourceData from '@/assets/js/data'
+import ThreadList from '@/components/ThreadList'
 
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    ThreadList
+  },
+  data: () => {
+    return {
+      threads: Object.values(sourceData.threads),
+      posts: sourceData.posts,
+      users: sourceData.users
+    }
   }
 }
 </script>

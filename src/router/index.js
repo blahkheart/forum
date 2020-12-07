@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import ThreadShow from '../components/ThreadShow.vue'
+// import ThreadShow from '../views/ThreadShow.vue'
 
 Vue.use(VueRouter)
 
@@ -19,10 +19,13 @@ const routes = [
   {
     path: '/thread/:id',
     name: 'ThreadShow',
-    component: ThreadShow,
-
-    // component: () => import(/* webpackChunkName: "threadShow" */ '../components/ThreadShow.vue'),
+    component: () => import(/* webpackChunkName: "threadShow" */ '../views/ThreadShow.vue'),
     props: true
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue')
   }
 ]
 

@@ -12,15 +12,14 @@
             {{post.text}}
         </div>
     </div>
-    <div class="post-date text-faded" :title="post.publishedAt | userFriendlyDate">
-        {{post.publishedAt | userFriendlyDateRelative}}
+    <div class="post-date text-faded">
+        <app-date :timestamp="post.publishedAt"/>
     </div>
   </div>
 </template>
 
 <script>
-import sourceData from '@/assets/js/data'
-import moment from 'moment'
+ import {countObjectProperties} from '@/utils'
 
 export default {
     props: {
@@ -31,18 +30,10 @@ export default {
     },
     computed: {
         user () {
-            return sourceData.users[this.post.userId]
+            return this.$store.state.sourceData.users[this.post.userId]
         },
         userPostsCount () {
-            return Object.keys(this.user.posts).length
-        }
-    },
-    filters: {
-        userFriendlyDate (date) {
-            return moment.unix(date).format('MMMM Do YYYY, h:mm:ss a')
-        },
-        userFriendlyDateRelative (date) {
-            return moment.unix(date).fromNow()
+            return countObjectProperties(this.user.posts)
         }
     }
 }

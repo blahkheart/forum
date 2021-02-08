@@ -40,51 +40,74 @@ export default new Vuex.Store({
       Vue.set(user.posts, postId, postId)
     },
     appendThreadToForum (state, {forumId, threadId}){
-      const forum = state.sourceData.users[threadId]
+      const forum = state.sourceData.forums[forumId]
       if(!forum.threads){
         Vue.set(forum, 'threads', {})
       }
-      Vue.set(forum.threads, forumId, forumId)
+      Vue.set(forum.threads, threadId, threadId)
     },
     appendThreadToUser (state, {userId, threadId}){
-      const user = state.sourceData.users[threadId]
+      const user = state.sourceData.users[userId]
       if(!user.threads){
         Vue.set(user, 'threads', {})
       }
-      Vue.set(user.threads, userId, userId)
+      Vue.set(user.threads, threadId,threadId)
     }
 
   },
   actions: {
-    createPost ( context, post){
+    createPost ( {commit, state}, post){
       const postId = 'somePost' + Math.random()
       post['.key'] = postId
       post.publishedAt = Math.floor(Date.now()/1000)
-      post.userId = context.state.authUser
-      context.commit('setPost', {post, postId})
-      context.commit('appendPostToThread', {threadId: post.threadId, postId})
-      context.commit('appendPostToUser', {userId: post.userId, postId})
-    },
+      post.userId = state.authUserId
+      commit('setPost', {postId, post})
+      commit('appendPostToThread', {threadId: post.threadId, postId})
+      commit('appendPostToUser', {userId: post.userId, postId})
+    }
+    ,
     
     createThread ({state, commit, dispatch}, {text, title, forumId}) {
-      const userId = state.authUser
-      const publishedAt = Math.floor(Date.now()/1000)
-      const threadId = 'someThread' + Math.random()
+      return new Promise( (resolve) => {
+        const userId = state.authUserId
+        const publishedAt = Math.floor(Date.now()/1000)
+        const threadId = 'someThread' + Math.random()
+  
+        const thread = {
+          '.key': threadId,
+          forumId,
+          title,
+          publishedAt,
+          userId
+        }
+  
+        commit('setThread', {threadId, thread})
+        commit('appendThreadToForum', {forumId, threadId})
+        commit('appendThreadToUser', {userId, threadId})
+        dispatch('createPost', {text, threadId})
+        resolve(state.sourceData.threads[threadId])
+      })
+      
+      // const userId = state.authUserId
+      // const publishedAt = Math.floor(Date.now()/1000)
+      // const threadId = 'someThread' + Math.random()
 
-      const thread = {
-        '.key': threadId,
-        forumId,
-        title,
-        publishedAt,
-        userId
-      }
+      // const thread = {
+      //   '.key': threadId,
+      //   forumId,
+      //   title,
+      //   publishedAt,
+      //   userId
+      // }
 
-      commit('setThread', {threadId, thread})
-      commit('appendThreadToForum', {forumId, threadId})
-      commit('appendThreadToUser', {userId, threadId})
-      dispatch('createPost', {text, threadId})
-    },
+      // commit('setThread', {threadId, thread})
+      // commit('appendThreadToForum', {forumId, threadId})
+      // commit('appendThreadToUser', {userId, threadId})
+      // dispatch('createPost', {text, threadId})
 
+     
+    }
+    ,
     updateUser ({commit}, user) {
       commit('setUser', {userId: user['.key'], user})
     }

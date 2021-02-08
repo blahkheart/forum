@@ -6,7 +6,8 @@
                     <h1>{{forum.name}}</h1>
                     <p>{{forum.description}}</p>
                 </div>
-                <a href="#" class="btn-green btn-small">start a thread</a>
+                <router-link class="btn-green btn-small" :to="{name: 'ThreadCreate', params: {'forum':forum}}">start a thread</router-link>
+                <!-- <a href="#" class="btn-green btn-small">start a thread</a> -->
             </div>
         </div>
         <div class="col-full push-top">

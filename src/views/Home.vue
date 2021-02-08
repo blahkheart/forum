@@ -17,18 +17,6 @@ export default {
     categories () {
       return Object.values(this.$store.state.sourceData.categories)
     }
-  },
-  beforeCreate(){
-    console.log('before create', this.categories)
-  },
-  created (){
-    console.log('create', this.categories)
-  },
-  beforeMount(){
-    console.log('before mount', this.categories)
-  },
-  mounted(){
-    console.log('mounted', this.categories, this.$el.innerText)
   }
 }
 </script>

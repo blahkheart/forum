@@ -12,10 +12,10 @@ import PostEditor from '@/components/PostEditor'
 
 export default {
     props: {
-        id: {
-          required: true,
-          type: String
-        }
+      id: {
+        required: true,
+        type: String
+      }
     },
     components: {
       PostList,

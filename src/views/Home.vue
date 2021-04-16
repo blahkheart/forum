@@ -1,18 +1,22 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <!-- <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div> -->
+  <div class="col-full push-top">
+    <h1>Welcome to the forum</h1>
+    <CategoryList :categories="categories"/>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+//  
+import CategoryList from '@/components/CategoryList'
 
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    CategoryList
+  },
+  computed:{
+    categories () {
+      return Object.values(this.$store.state.sourceData.categories)
+    }
   }
 }
 </script>

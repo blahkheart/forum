@@ -1,0 +1,46 @@
+<template>
+    <div class="forum-wrapper">
+        <div class="col-full push-top">
+            <div class="forum-header">
+                <div class="forum-details">
+                    <h1>{{forum.name}}</h1>
+                    <p>{{forum.description}}</p>
+                </div>
+                <router-link class="btn-green btn-small" :to="{name: 'ThreadCreate', params: {'forum':forum}}">start a thread</router-link>
+                <!-- <a href="#" class="btn-green btn-small">start a thread</a> -->
+            </div>
+        </div>
+        <div class="col-full push-top">
+            <ThreadList :threads="threads" />
+        </div>
+    </div>
+</template>
+<script>
+import ThreadList from '@/components/ThreadList'
+ 
+
+export default {
+    components: {ThreadList},
+    props: {
+        id: {
+            required: true,
+            type: String
+        }
+    },
+    computed: {
+        forum (){
+            return this.$store.state.sourceData.forums[this.id]
+        },
+        threads () {
+            return Object.values(this.$store.state.sourceData.threads)
+                .filter(thread => thread.forumId === this.id)
+        }
+    }
+    
+}
+</script>
+<style scoped lang="scss">
+    .forum-wrapper{
+        width: 100%;
+    }
+</style>
